@@ -81,10 +81,10 @@ var teleportd = function(spec, my) {
   my.access_key = spec.access_key || null;
   
   // public
-  var search; /* search({loc, str, period, from, size}, function(hits, total, took) {...}); */
+  var search; /* search({loc, str, period, from, size}, function(err, hits, total, took) {...}); */
   var stream; /* stream({loc, str}, function(pic) {...}); */
   var stop;   /* stop(sid); */
-  var get;    /* get(sha, function(pic) {...}); */
+  var get;    /* get(sha, function(err, pic) {...}); */
 
   // Internal
   var tag;    /* tag(sha, tag, function(err) {...}); */
