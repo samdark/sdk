@@ -88,7 +88,7 @@ var teleportd = function(spec, my) {
 
   // Internal
   var tag;    /* tag(sha, tag, function(err) {...}); */
-  var untag;  /* tag(sha, tag, function(err) {...}); */
+  var untag;  /* untag(sha, tag, function(err) {...}); */
 
   // private
   var build;
@@ -355,7 +355,7 @@ var teleportd = function(spec, my) {
 
   // internal use
   fwk.method(that, 'tag', tag, _super);
-  fwk.method(that, 'untag', tag, _super);
+  fwk.method(that, 'untag', untag, _super);
 
   return that;
 };
