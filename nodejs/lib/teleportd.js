@@ -170,6 +170,11 @@ var teleportd = function(spec, my) {
     
     var restart = function() {
       if(typeof my.streams[sid] !== 'undefined') {        
+        if(my.streams[sid].res) {
+          my.streams[sid].res.destroy();
+          delete my.streams[sid].res;
+        }
+
         my.streams[sid].error++;
         if(my.streams[sid].error > 5)
 	  my.streams[sid].error = 5;
@@ -182,19 +187,24 @@ var teleportd = function(spec, my) {
     
     http.get(build(spec, 'stream'), function(res) {
       var parser = new Parser();
-      
+
+      // to avoid having multiple streams
+      if(my.streams[sid].res) {
+        res.destroy();
+        return;
+      }
+
       my.streams[sid].res = res;
-      my.streams[sid].parser = parser;		 
-      
+      my.streams[sid].parser = parser;      
       
       parser.on('object', function(pic) {
         my.streams[sid].error = 0;
         cb(pic);
-      });
-      
+      });      
       res.on('data', function(chunk) {
         parser.receive(chunk);
       });
+
       res.on('end', function() {
         restart();
       });	       
