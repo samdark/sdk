@@ -87,8 +87,8 @@ var teleportd = function(spec, my) {
   var get;    /* get(sha, function(err, pic) {...}); */
 
   // Internal
-  var tag;    /* tag(sha, tag, function(err) {...}); */
-  var untag;  /* untag(sha, tag, function(err) {...}); */
+  var tag;    /* tag(sha, tags, function(err) {...}); */
+  var untag;  /* untag(sha, tags, function(err) {...}); */
 
   // private
   var build;
@@ -275,10 +275,16 @@ var teleportd = function(spec, my) {
    * Add specified tag to a pic
    * /!\ For internal use only
    * @param sha
-   * @param tag
+   * @param tags  tag array
    * @param cb    callback function cb(err)
    */
-  tag = function(sha, tag, cb) {
+  tag = function(sha, tags, cb) {
+    if(typeof tags === 'string')
+      tags = [tags];
+    if(!Array.isArray(tags)) {
+      cb(new Error('tags must be passed as array'));
+      return;
+    }         
     var options = { host: 'post.core.teleportd.com',
                     port: 80,
                     path: '/tag/' + sha,
@@ -309,7 +315,7 @@ var teleportd = function(spec, my) {
       cb(e);
     });
     
-    req.write(JSON.stringify({tag: tag}));
+    req.write(JSON.stringify({tags: tags}));
     req.end();
   };
 
@@ -318,10 +324,16 @@ var teleportd = function(spec, my) {
    * Remove a specified tag from a pic
    * /!\ For internal use only
    * @param sha
-   * @param tag
+   * @param tags  to remove
    * @param cb    callback function(err)
    */
-  untag = function(sha, tag, cb) {
+  untag = function(sha, tags, cb) {
+    if(typeof tags === 'string')
+      tags = [tags];
+    if(!Array.isArray(tags)) {
+      cb(new Error('tags must be passed as array'));
+      return;
+    }
     var options = { host: 'post.core.teleportd.com',
                     port: 80,
                     path: '/untag/' + sha,
@@ -352,7 +364,7 @@ var teleportd = function(spec, my) {
       cb(e);
     });
     
-    req.write(JSON.stringify({tag: tag}));
+    req.write(JSON.stringify({tags: tags}));
     req.end();
   };
 
