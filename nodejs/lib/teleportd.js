@@ -106,6 +106,8 @@ var teleportd = function(spec, my) {
     var q = { accesskey: my.access_key,
               user_key: my.user_key};
     // parameters validation
+    if(Array.isArray(spec.track))       // track     [stream]
+      q.track = JSON.stringify(spec.track);
     if(Array.isArray(spec.loc) && spec.loc.length === 4)       // loc     [stream|search]
       q.loc = JSON.stringify(spec.loc);
     if(typeof spec.str === 'string')                           // str     [stream|search]
@@ -156,7 +158,7 @@ var teleportd = function(spec, my) {
   
   /**
    * Starts a stream search and calls cb on each pic received
-   * @param spec {loc, str}
+   * @param spec {loc, str, track}
    * @param cb   callback function
    * @return sid stream id
    */
