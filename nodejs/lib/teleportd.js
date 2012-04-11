@@ -192,6 +192,8 @@ var teleportd = function(spec, my) {
       var parser = new Parser();
 
       // to avoid having multiple streams
+      if(!my.streams[sid])
+        return;
       if(my.streams[sid].res) {
         res.destroy();
         return;
