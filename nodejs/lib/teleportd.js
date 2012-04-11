@@ -158,7 +158,7 @@ var teleportd = function(spec, my) {
   
   /**
    * Starts a stream search and calls cb on each pic received
-   * @param spec {loc, str}
+   * @param spec {loc, str, track}
    * @param cb   callback function
    * @return sid stream id
    */
