@@ -1,6 +1,6 @@
 {
   "name": "teleportd",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "NodeJS Driver for Teleportd API",
   "homepage": "https://teleportd.com/api.html",
   "author": { "name": "Stanislas Polu",

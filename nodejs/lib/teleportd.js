@@ -138,6 +138,7 @@ var teleportd = function(spec, my) {
    */
   search = function(spec, cb) {
     http.get(build(spec, 'search'), function(res) {
+      res.setEncoding('utf8');
       var body = '';
       res.on('data', function(chunk) {
         body += chunk;
@@ -189,6 +190,7 @@ var teleportd = function(spec, my) {
     };	       
     
     http.get(build(spec, 'stream'), function(res) {
+      res.setEncoding('utf8');
       var parser = new Parser();
 
       // to avoid having multiple streams
@@ -257,6 +259,7 @@ var teleportd = function(spec, my) {
   get = function(sha, cb) {
     var spec = {sha: sha};
     http.get(build(spec, 'get'), function(res) {
+      res.setEncoding('utf8');
       var body = '';
       res.on('data', function(chunk) {
         body += chunk;
