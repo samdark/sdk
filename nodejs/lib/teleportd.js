@@ -155,7 +155,7 @@ var teleportd = function(spec, my) {
           if(res.ok)
             cb(null, res.hits, res.total, res.took);
           else
-            cb(new Error('Search fail'));
+            cb(new Error('Search fail: ' + res.error));
         }
         catch (e) {
           cb(e);
@@ -276,7 +276,7 @@ var teleportd = function(spec, my) {
           if(res.ok)
             cb(null, res.hit);
           else
-            cb(new Error('Get fail'));
+            cb(new Error('Get fail: ' + res.error));
         }
         catch(e) {
           cb(e);
@@ -304,7 +304,7 @@ var teleportd = function(spec, my) {
           if (res.ok) {
             cb(null, res.batch);
           } else {
-            cb(new Error('Batch fail'));
+            cb(new Error('Batch fail: ' + res.error));
           }
         } catch(e) {
           cb(e);
