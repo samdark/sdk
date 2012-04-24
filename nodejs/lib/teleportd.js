@@ -50,10 +50,10 @@ Parser.prototype.receive = function receive(buffer) {
     this.buffer = this.buffer.slice(index + Parser.END_LENGTH);
     if (json.length > 0) {    
       try {
-	json = JSON.parse(json);
-	this.emit('object', json);
+        json = JSON.parse(json);
+        this.emit('object', json);
       } catch (error) {
-	this.emit('error', error);
+        this.emit('error', error);
       }
     }
   }
@@ -85,6 +85,7 @@ var teleportd = function(spec, my) {
   var stream; /* stream({loc, str}, function(pic) {...}); */
   var stop;   /* stop(sid); */
   var get;    /* get(sha, function(err, pic) {...}); */
+  var batch;  /* batch(shas, function(err, pics) {...}); */
 
   // Internal
   var tag;    /* tag(sha, tags, function(err) {...}); */
@@ -104,7 +105,7 @@ var teleportd = function(spec, my) {
     var headers = {'User-Agent': 'NodeJS Teleportd API Driver v0.1.0'};
     
     var q = { accesskey: my.access_key,
-              user_key: my.user_key};
+              user_key: my.user_key };
     // parameters validation
     if(Array.isArray(spec.loc) && spec.loc.length === 4)       // loc     [stream|search]
       q.loc = JSON.stringify(spec.loc);
@@ -122,11 +123,16 @@ var teleportd = function(spec, my) {
 
     if(typeof spec.sha === 'string')                           // sha     [get]
       q.sha = spec.sha;
+    
+    if (Array.isArray(spec.shas))
+      q.shas = spec.shas.join(',');
+    else if (typeof spec.shas === 'string')
+      q.shas = spec.shas;
 
     var options = { host: my.host,
-	    	    port: 80,
-	    	    path: '/' + endpoint + '?' + qs.stringify(q),
-	    	    headers: headers };
+	    	            port: 80,
+	    	            path: '/' + endpoint + '?' + qs.stringify(q),
+	    	            headers: headers };
 
     return options;    
   };
@@ -181,7 +187,7 @@ var teleportd = function(spec, my) {
 
         my.streams[sid].error++;
         if(my.streams[sid].error > 5)
-	  my.streams[sid].error = 5;
+	        my.streams[sid].error = 5;
         util.debug('STREAM RESTART COUNT: ' + (my.streams[sid].error - 1) + ' ' + (1000 * Math.pow(2, my.streams[sid].error - 1)));
         setTimeout(function() {			      
 	  stream(spec, cb, sid);
@@ -242,8 +248,8 @@ var teleportd = function(spec, my) {
     }
     else if(typeof sid === 'undefined') {
       for(var s in my.streams) {
-	if(my.streams.hasOwnProperty(s)) {
-	  my.streams[s].res.destroy();
+	      if(my.streams.hasOwnProperty(s)) {
+	        my.streams[s].res.destroy();
           my.streams[s].cb();
         }
       }
@@ -253,7 +259,7 @@ var teleportd = function(spec, my) {
 
   /**
    * Retrieves detailed information about a particular pic
-   * @param ss sha 
+   * @param sha 
    * @param cb      callback function cb(err, pic)
    */
   get = function(sha, cb) {
@@ -273,6 +279,34 @@ var teleportd = function(spec, my) {
             cb(new Error('Get fail'));
         }
         catch(e) {
+          cb(e);
+        }
+      });
+    });	       
+  };
+  
+  /**
+   * Retrieves detailed information about multiple pics
+   * @param shas    array containing multiple shas
+   * @param cb      callback function cb(err, pics)
+   */
+  batch = function(shas, cb) {
+    var spec = { shas: shas };
+    http.get(build(spec, 'batch'), function(res) {
+      res.setEncoding('utf8');
+      var body = '';
+      res.on('data', function(chunk) {
+        body += chunk;
+      });
+      res.on('end', function() {
+        try {
+          var res = JSON.parse(body);
+          if (res.ok) {
+            cb(null, res.batch);
+          } else {
+            cb(new Error('Batch fail'));
+          }
+        } catch(e) {
           cb(e);
         }
       });
@@ -382,6 +416,7 @@ var teleportd = function(spec, my) {
   fwk.method(that, 'stream', stream, _super);
   fwk.method(that, 'stop', stop, _super);
   fwk.method(that, 'get', get, _super);
+  fwk.method(that, 'batch', batch, _super);
 
   // internal use
   fwk.method(that, 'tag', tag, _super);
