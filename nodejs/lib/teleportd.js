@@ -143,7 +143,7 @@ var teleportd = function(spec, my) {
    * @param cb   callback function cb(err, hits, total, took)
    */
   search = function(spec, cb) {
-    if(!Array.isArray(loc) && 
+    if(!Array.isArray(spec.loc) && 
        typeof spec.str !== 'string') {
       cb(new Error('Empty Search not supported'))
       return;
