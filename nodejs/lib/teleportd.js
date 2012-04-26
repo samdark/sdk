@@ -143,6 +143,11 @@ var teleportd = function(spec, my) {
    * @param cb   callback function cb(err, hits, total, took)
    */
   search = function(spec, cb) {
+    if(!Array.isArray(loc) && 
+       typeof spec.str !== 'string') {
+      cb(new Error('Empty Search not supported'))
+      return;
+    }
     http.get(build(spec, 'search'), function(res) {
       res.setEncoding('utf8');
       var body = '';
