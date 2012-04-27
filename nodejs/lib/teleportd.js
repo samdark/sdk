@@ -166,6 +166,8 @@ var teleportd = function(spec, my) {
           cb(e);
         }
       });
+    }).on('error', function(err) {
+      cb(err);
     });
   };
   
@@ -287,6 +289,8 @@ var teleportd = function(spec, my) {
           cb(e);
         }
       });
+    }).on('error', function(err) {
+      cb(err);
     });	       
   };
   
@@ -315,7 +319,9 @@ var teleportd = function(spec, my) {
           cb(e);
         }
       });
-    });	       
+    }).on('error', function(err) {
+      cb(err);
+    });      
   };
 
   /**
