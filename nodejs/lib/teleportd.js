@@ -117,6 +117,8 @@ var teleportd = function(spec, my) {
       q.from = spec.from;
     if(typeof spec.size === 'number')                          // skip    [search]
       q.size = spec.size;
+    if(typeof spec.sort === 'string')                          // sort    [serach]
+      q.sort = spec.sort;
 
     if(Array.isArray(spec.track))                              // track   [stream]
       q.track = JSON.stringify(spec.track);
