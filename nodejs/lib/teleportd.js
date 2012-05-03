@@ -333,7 +333,7 @@ var teleportd = function(spec, my) {
    * @param cb    callback function cb(err)
    */
   tag = function(sha, tags, cb) {    
-    if(typeof tags === 'undefined' ||
+    if(typeof tags !== 'object' ||
        (!Array.isArray(tags.tag) &&
         !Array.isArray(tags.untag))) {
       cb(new Error('tags must be passed as { tag: [], untag: [] }'));
