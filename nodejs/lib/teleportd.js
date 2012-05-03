@@ -89,7 +89,6 @@ var teleportd = function(spec, my) {
 
   // Internal
   var tag;    /* tag(sha, tags, function(err) {...}); */
-  var untag;  /* untag(sha, tags, function(err) {...}); */
 
   // private
   var build;
@@ -147,7 +146,7 @@ var teleportd = function(spec, my) {
   search = function(spec, cb) {
     if(!Array.isArray(spec.loc) && 
        typeof spec.str !== 'string') {
-      cb(new Error('Empty Search not supported'))
+      cb(new Error('Empty Search not permitted'))
       return;
     }
     http.get(build(spec, 'search'), function(res) {
@@ -330,16 +329,16 @@ var teleportd = function(spec, my) {
    * Add specified tag to a pic
    * /!\ For internal use only
    * @param sha
-   * @param tags  tag array
+   * @param tags  { tag: [], untag: [] }
    * @param cb    callback function cb(err)
    */
-  tag = function(sha, tags, cb) {
-    if(typeof tags === 'string')
-      tags = [tags];
-    if(!Array.isArray(tags)) {
-      cb(new Error('tags must be passed as array'));
-      return;
-    }         
+  tag = function(sha, tags, cb) {    
+    if(typeof tags === 'undefined' ||
+       (!Array.isArray(tags.tag) &&
+        !Array.isArray(tags.untag))
+       cb(new Error('tags must be passed as { tag: [], untag: [] }'));
+       return;
+      }         
     var options = { host: 'post.core.teleportd.com',
                     port: 80,
                     path: '/tag/' + sha,
@@ -348,55 +347,6 @@ var teleportd = function(spec, my) {
                                "x-teleportd-accesskey": my.access_key }
                   };
     var body = '';
-
-    var req = http.request(options, function(res) {
-      res.setEncoding('utf8');
-      res.on('data', function (chunk) {
-        body += chunk;
-      });
-      res.on('end', function() {
-        try {
-          var post = JSON.parse(body);
-          if (post.ok)
-            cb();
-        }
-        catch(e) {
-          cb(e);
-        }
-      });
-    });
-    
-    req.on('error', function(e) {
-      cb(e);
-    });
-    
-    req.write(JSON.stringify({tags: tags}));
-    req.end();
-  };
-
-
-  /**
-   * Remove a specified tag from a pic
-   * /!\ For internal use only
-   * @param sha
-   * @param tags  to remove
-   * @param cb    callback function(err)
-   */
-  untag = function(sha, tags, cb) {
-    if(typeof tags === 'string')
-      tags = [tags];
-    if(!Array.isArray(tags)) {
-      cb(new Error('tags must be passed as array'));
-      return;
-    }
-    var options = { host: 'post.core.teleportd.com',
-                    port: 80,
-                    path: '/untag/' + sha,
-                    method: 'POST',
-                    headers: { "content-type": 'application/json',
-                               "x-teleportd-accesskey": my.access_key }
-                  };
-    var body = '';
     
     var req = http.request(options, function(res) {
       res.setEncoding('utf8');
@@ -419,9 +369,10 @@ var teleportd = function(spec, my) {
       cb(e);
     });
     
-    req.write(JSON.stringify({tags: tags}));
+    req.write(JSON.stringify(tags));
     req.end();
   };
+
 
 
   // exposed methods
@@ -433,7 +384,6 @@ var teleportd = function(spec, my) {
 
   // internal use
   fwk.method(that, 'tag', tag, _super);
-  fwk.method(that, 'untag', untag, _super);
 
   return that;
 };
