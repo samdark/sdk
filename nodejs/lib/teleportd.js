@@ -335,10 +335,10 @@ var teleportd = function(spec, my) {
   tag = function(sha, tags, cb) {    
     if(typeof tags === 'undefined' ||
        (!Array.isArray(tags.tag) &&
-        !Array.isArray(tags.untag))
-       cb(new Error('tags must be passed as { tag: [], untag: [] }'));
-       return;
-      }         
+        !Array.isArray(tags.untag))) {
+      cb(new Error('tags must be passed as { tag: [], untag: [] }'));
+      return;
+    }         
     var options = { host: 'post.core.teleportd.com',
                     port: 80,
                     path: '/tag/' + sha,
