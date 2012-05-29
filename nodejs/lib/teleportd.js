@@ -135,6 +135,9 @@ var teleportd = function(spec, my) {
 	    	            path: '/' + endpoint + '?' + qs.stringify(q),
 	    	            headers: headers };
 
+    if(endpoint === 'stream')
+      options.agent = false;
+
     return options;    
   };
 
