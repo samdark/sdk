@@ -131,9 +131,9 @@ var teleportd = function(spec, my) {
       q.shas = spec.shas;
 
     var options = { host: my.host,
-	    	            port: 80,
-	    	            path: '/' + endpoint + '?' + qs.stringify(q),
-	    	            headers: headers };
+	            port: 80,
+                    path: '/' + endpoint + '?' + qs.stringify(q),
+	    	    headers: headers };
 
     if(endpoint === 'stream')
       options.agent = false;
@@ -342,7 +342,7 @@ var teleportd = function(spec, my) {
       cb(new Error('tags must be passed as { tag: [], untag: [] }'));
       return;
     }         
-    var options = { host: 'post.core.teleportd.com',
+    var options = { host: my.host,
                     port: 80,
                     path: '/tag/' + sha,
                     method: 'POST',
