@@ -2,13 +2,13 @@
 
 from lib.teleportd import Teleportd
 
-teleportd = Teleportd('a13265daf227bfb9adddf73c0a2ab757')
+teleportd = Teleportd('YOUR API KEY')
 
 def callback(data):
 	print data
 
 #stream = teleportd.stream({}, callback)
 search = teleportd.search({'str': 'paris'})
-get = teleportd.get({'sha': '12-07-20-98a3b3fdd9b190ef4484a06a76fc1009c03076c5'})
+#get = teleportd.get({'sha': '12-07-20-98a3b3fdd9b190ef4484a06a76fc1009c03076c5'})
 
-print get
+print search

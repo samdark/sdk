@@ -96,7 +96,7 @@ class Teleportd():
 		url = self.url % (endpoint, self.key, urllib.urlencode(args))
 		if endpoint is 'stream':
 			conn = pycurl.Curl()
-			#conn.setopt(pycurl.VERBOSE, 1)
+			conn.setopt(pycurl.VERBOSE, 1)
 			conn.setopt(pycurl.URL, url)
 			conn.setopt(pycurl.WRITEFUNCTION, lambda chunk: self.__on_receive(chunk, callback))
 			conn.perform()
