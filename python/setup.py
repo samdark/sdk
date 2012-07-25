@@ -7,7 +7,7 @@ setup(
 		version='0.3.3',
 		author='Antoine Llorca',
 		author_email='antoine@teleportd.com',
-		packages=['teleportd', 'teleportd.test'],
+		packages=['.'],
 		url='http://pypi.python.org/pypi/Teleportd/',
 		license='LICENSE.txt',
 		description='Teleportd API Python Wrapper',
