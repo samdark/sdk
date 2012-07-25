@@ -13,6 +13,6 @@ setup(
 		description='Teleportd API Python Wrapper',
 		long_description=open('README.txt').read(),
 		install_requires=[
-				 "pycurl >= 7.0.0",
+				"pycurl >= 7.0.0",
 		],
 )
