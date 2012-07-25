@@ -12,9 +12,9 @@ Typical usage looks like this::
 
 		#!/usr/bin/env python
 		
-		from teleportd import teleportd
+		from teleportd import Teleportd
 
-		teleportd = teleportd.Teleportd('_YOUR_USER_KEY_')
+		teleportd = Teleportd('_YOUR_USER_KEY_')
 		
 		# Search with filters as a dictionary
 		search = teleportd.search({'str': 'laduree'})

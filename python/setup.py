@@ -4,7 +4,7 @@ from distutils.core import setup
 
 setup(
 		name='Teleportd',
-		version='0.3.2',
+		version='0.3.3',
 		author='Antoine Llorca',
 		author_email='antoine@teleportd.com',
 		packages=['teleportd', 'teleportd.test'],
@@ -13,6 +13,6 @@ setup(
 		description='Teleportd API Python Wrapper',
 		long_description=open('README.txt').read(),
 		install_requires=[
-				"pycurl >= 7.0.0",
+				'pycurl >= 7.0.0',
 		],
 )
