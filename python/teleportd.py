@@ -3,7 +3,7 @@
 # A Python wrapper around the Teleportd API.
 
 __author__ = 'Antoine Llorca <antoine@teleportd.com>'
-__version__ = '0.3.0'
+__version__ = '0.3.3'
 
 import urllib
 import urllib2

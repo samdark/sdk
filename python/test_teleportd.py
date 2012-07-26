@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-from lib.teleportd import Teleportd
+from teleportd import Teleportd
 
-teleportd = Teleportd('YOUR API KEY')
+teleportd = Teleportd('_YOUR_USER_KEY_')
 
 def callback(data):
 	print data
