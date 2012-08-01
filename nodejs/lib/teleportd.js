@@ -225,6 +225,9 @@ var teleportd = function(spec, my) {
         my.streams[sid].error = 0;
         cb(pic);
       });      
+      parser.on('error', function(e) {
+        restart();
+      });
       res.on('data', function(chunk) {
         parser.receive(chunk);
       });
