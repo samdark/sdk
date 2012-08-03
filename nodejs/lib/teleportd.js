@@ -78,6 +78,7 @@ var teleportd = function(spec, my) {
 
   // /!\ Internal use only
   my.host = spec.host || 'api.teleportd.com';
+  my.port = spec.port || 80;
   my.access_key = spec.access_key || null;
   
   // public
@@ -131,7 +132,7 @@ var teleportd = function(spec, my) {
       q.shas = spec.shas;
 
     var options = { host: my.host,
-	            port: 80,
+	            port: my.port,
                     path: '/' + endpoint + '?' + qs.stringify(q),
 	    	    headers: headers };
 
