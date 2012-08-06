@@ -347,7 +347,7 @@ var teleportd = function(spec, my) {
       return;
     }         
     var options = { host: my.host,
-                    port: 80,
+                    port: my.port,
                     path: '/tag/' + sha,
                     method: 'POST',
                     headers: { "content-type": 'application/json',
