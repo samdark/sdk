@@ -346,12 +346,15 @@ var teleportd = function(spec, my) {
       cb(new Error('tags must be passed as { tag: [], untag: [] }'));
       return;
     }         
+    var post = JSON.stringify(tags);
+
     var options = { host: my.host,
                     port: my.port,
                     path: '/tag/' + sha,
                     method: 'POST',
                     headers: { "content-type": 'application/json',
-                               "x-teleportd-accesskey": my.access_key }
+                               "x-teleportd-accesskey": my.access_key,
+                               "content-length": (new Buffer(post)).length }
                   };
     var body = '';
     
@@ -376,7 +379,7 @@ var teleportd = function(spec, my) {
       cb(e);
     });
     
-    req.write(JSON.stringify(tags));
+    req.write(post);
     req.end();
   };
 
