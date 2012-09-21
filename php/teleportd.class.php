@@ -1,4 +1,4 @@
-<?
+<?php
 // Copyright Teleportd Ltd
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -88,8 +88,8 @@ class Teleportd
   protected function __execute($method, $args)
   {
     $data = false;
-    $path = '/'.$method.'?user_key='.$this->user_key.'&'.http_build_query($args);      
-   
+    $path = '/'.$method.'?user_key='.$this->user_key.'&'.http_build_query($args);
+
     $fp = @fsockopen($this->srv, $this->port, $errno, $errstr, 1);
 
     if ($fp)
@@ -131,13 +131,11 @@ class Teleportd
       }
     else
       {
-        print('<br/>test<br/>');
-        print_r($body);
         $json = json_decode(mb_convert_encoding($body, 'UTF-8'));
 
         if($json)
           {
-            if($json->ok) 
+            if($json->ok)
               {
                 return $json;
               }
@@ -154,5 +152,3 @@ class Teleportd
   }
 
 }
-
-?>
