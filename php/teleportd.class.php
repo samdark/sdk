@@ -24,7 +24,7 @@
 class Teleportd
 {
 	public $user_key;
-	public $srv = 'api.teleportd.com';
+	public $srv = 'api.v2.teleportd.com';
 	public $port = 80;
 
 	public function __construct($user_key, $srv = null, $port = null)
